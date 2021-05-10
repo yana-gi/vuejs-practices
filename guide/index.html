@@ -35,6 +35,18 @@
     </ol>
 </div>
 
+<div id="app-5">
+    <p>{{ message }}</p>
+    <!-- v-onディレクティブでVueインスタンスのメソッドを呼び出す -->
+    <button v-on:click="reverseMessage">Reverse Message</button>
+</div>
+
+<div id="app-6">
+    <p>{{ message }}</p>
+    <!-- v-modelディレクティブで「双方向バインディング」ができる -->
+    <input v-model="message">
+</div>
+
 
 <script>
     const app = new Vue({
@@ -63,6 +75,23 @@
                 { text: 'Learn Vue' },
                 { text: 'Build something awesome' }
             ]
+        }
+    })
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Hello Vue!'
         }
     })
 </script>
