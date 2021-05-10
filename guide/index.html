@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My first Vue app</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+<div id="app">
+    <!--レンダリング-->
+    <!--appで指定したmessageを表示する-->
+    <!--データとDOMが関連づけられ、リアクティブになっている-->
+    {{ message }}                   <!-- この行と -->
+    <div v-text="message"></div>    <!-- この行は同じ意味 -->
+</div>
+<div id="app-2">
+    <!--要素の属性を束縛（バインディング）する-->
+    <!--この要素の title 属性を Vue インスタンスの message プロパティによって更新して保存する-->
+    <span v-bind:title="message">
+        Hover your mouse over me for a few seconds
+        to see my dynamically bound title!
+    </span>
+</div>
+
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        }
+    });
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: 'You loaded this page on ' + new Date().toLocaleString()
+        }
+    })
+</script>
+</body>
+</html>
