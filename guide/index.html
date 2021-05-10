@@ -20,6 +20,21 @@
         to see my dynamically bound title!
     </span>
 </div>
+<div id="app-3">
+    <!-- v-ifディレクティブ -->
+    <!-- seen がtrueだったらvalueを表示する-->
+    <span v-if="seen">Now you see me</span>
+</div>
+
+<div id="app-4">
+    <ol>
+        <!-- v-forディレクティブで配列のデータを表示する-->
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
 
 <script>
     const app = new Vue({
@@ -32,6 +47,22 @@
         el: '#app-2',
         data: {
             message: 'You loaded this page on ' + new Date().toLocaleString()
+        }
+    })
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true // falseにすると見えなくなる
+        }
+    })
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: 'Learn JavaScript' },
+                { text: 'Learn Vue' },
+                { text: 'Build something awesome' }
+            ]
         }
     })
 </script>
