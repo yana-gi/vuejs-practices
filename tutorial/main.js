@@ -48,6 +48,8 @@ var app = new Vue({
             deep: true
         }
     },
+    // Vueインスタンス作成時に自動的にfetch()する（データを読み込む）
+    // createdの様なライフサイクルフックメソッドの定義はmethodの中ではない
     created() {
         this.todos = todoStorage.fetch()
     },
