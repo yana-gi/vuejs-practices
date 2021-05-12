@@ -56,11 +56,13 @@ var app = new Vue({
             if (!comment.value.length) {
                 return
             }
+            // { 新しいID, コメント, 作業状態 } というオブジェクトをpush
             this.todos.push({
                 id: todoStorage.uid++,
                 comment: comment.value,
                 state: 0
             })
+            // フォーム要素をからにする
             comment.value = ''
         },
         doChangeState: function(item) {
