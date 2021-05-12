@@ -50,6 +50,8 @@ var app = new Vue({
     },
     methods:{
         doAdd: function(event, value) {
+            // ref属性で名前をつけた要素をは$refsで取得できる
+            // メソッド内はthisを付ける必要がある
             var comment = this.$refs.comment
             if (!comment.value.length) {
                 return
