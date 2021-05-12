@@ -10,6 +10,8 @@
         <label v-for="label in options">
             <!-- v-modelでテキストフォームの入力値とmessageプロパティをバインディングさせる -->
             <!-- フォームの文字を編集すると画面のメッセージも変更される -->
+            <!-- currentの初期値は-1（すべて） -->
+            <!-- ラジオボタンが変更されると、その要素のlavel.valueがcurrentプロパティに代入される-->
             <input type="radio"
                    v-model="current"
                    v-bind:value="label.value">{{ label.label }}

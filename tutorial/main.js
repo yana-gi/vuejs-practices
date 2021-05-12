@@ -18,6 +18,8 @@ var app = new Vue({
     el: '#app',
     data: {
         todos: [],
+        // 洗濯しているoptionsのvalueを記憶するためのデータ
+        // 初期値を -1(=すべて) にする
         current: -1,
         options: [
             { value: -1, label: 'すべて' },
@@ -70,9 +72,11 @@ var app = new Vue({
             // フォーム要素をからにする
             comment.value = ''
         },
+        // 状態変更の処理
         doChangeState: function(item) {
             item.state = item.state ? 0 : 1
         },
+        // 削除の処理
         doRemove: function (item) {
             var index = this.todos.indexOf(item)
             this.todos.splice(index,1)
