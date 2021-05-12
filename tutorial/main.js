@@ -37,11 +37,14 @@ var app = new Vue({
             },{})
         }
     },
+    // ウォッチャ：データの変化に反応して、登録しておいた処理を自動的に行う
+    // 次の場合、todosが変化した場合、ストレージを保存する
     watch: {
         todos: {
             handler: function(todos) {
                 todoStorage.save(todos)
             },
+            // deepオプション：ネストされたオブジェクトも監視する
             deep: true
         }
     },
