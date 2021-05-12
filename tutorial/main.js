@@ -27,13 +27,19 @@ var app = new Vue({
             { value: 1,  label: '完了' }
         ]
     },
+    // 算出プロパティ
+    // dataと似た様に扱うことができる、関数によって算出されたデータ
     computed: {
         computedTodos: function() {
             return this.todos.filter(function(el) {
+                // データcurrentが-1ならすべて
+                // それ以外ならcurrent と state が一致するものだけ絞り込む
                 return this.current < 0 ? true : this.current === el.state
             }, this)
         },
         labels(){
+            // キーから見つけやすいように、次のように加工したデータを作成
+            // {0: '作業中', 1: '完了', -1: 'すべて'}
             return this.options.reduce(function(a,b) {
                 return Object.assign(a,{ [b.value]: b.label })
             },{})
