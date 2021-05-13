@@ -43,6 +43,10 @@ var app = new Vue({
                 state: 0
             })
             comment.value = ''
+        },
+        doRemove: function (item) {
+            var index = this.todos.indexOf(item)
+            this.todos.splice(index,1)
         }
     }
 })
