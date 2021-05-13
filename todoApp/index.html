@@ -56,12 +56,12 @@
                 </div>
                 <div class="column">
                     <div v-show="!item.editMode">
-                        <button class="button is-primary is-outlined" v-on:click="toOnEditMode(item)">
+                        <button class="button is-primary is-outlined" v-on:click="item.editMode = true">
                             変更
                         </button>
                     </div>
                     <div v-show="item.editMode">
-                        <button class="button is-primary is-outlined" v-on:click="toOffEditMode(item)">
+                        <button class="button is-primary is-outlined" v-on:click="item.editMode = false">
                             取消
                         </button>
                     </div>
