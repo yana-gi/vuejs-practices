@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 var STORAGE_KEY = 'todos_storage'
 var todoStorage = {
     fetch: function() {
@@ -40,9 +42,24 @@ var app = new Vue({
             this.todos.push({
                 id: todoStorage.uid++,
                 comment: comment.value,
-                state: 0
+                editMode: false
             })
             comment.value = ''
+        },
+        toOnEditMode: function(item) {
+            item.editMode = true
+        },
+        toOffEditMode: function(item) {
+            item.editMode = false
+        },
+        doChangeComment: function (item, index) {
+            var comment = this.$refs.newComment[index]
+            if (!comment.value.length) {
+                item.editMode = false
+                return
+            }
+            item.comment = comment.value
+            item.editMode = false
         },
         doRemove: function (item) {
             var index = this.todos.indexOf(item)

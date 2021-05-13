@@ -19,7 +19,7 @@
 
         <div class="box content">
             <form class="form" v-on:submit.prevent="doAdd">
-                <div class="columns is-mobile has-text-centered is-vcentered ">
+                <div class="columns is-mobile is-vcentered ">
                     <div class="column is-two-thirds">
                         <input class="input is-medium" type="text" placeholder="ToDo" ref="comment"></div>
                     <div class="column has-text-left">
@@ -33,19 +33,43 @@
             <h2 class="title">
                 ToDo List
             </h2>
-            <div class="columns is-mobile is-vcentered" v-for="item in todos" v-bind:key="item.id">
+
+            <div class="columns is-mobile is-vcentered" v-for="(item, index) in todos" v-bind:key="item.id">
                 <div class="column is-two-thirds has-text-left">
-                    {{ item.comment }}
+                    <div v-show="item.editMode">
+                        <form class="form" v-on:submit.prevent="doChangeComment(item, index)">
+                            <div class="columns is-mobile has-text-centered is-vcentered ">
+                                <div class="column is-two-thirds">
+                                    <input class="input" type="text" ref="newComment" v-bind:value="item.comment">
+                                </div>
+                                <div class="column has-text-left">
+                                    <button class="button is-primary " type="submit">
+                                        保存
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div v-show="!item.editMode">
+                        {{ item.comment }}
+                    </div>
                 </div>
                 <div class="column">
-                    <div class="buttons">
-                        <button class="button is-primary is-outlined">
+                    <div v-show="!item.editMode">
+                        <button class="button is-primary is-outlined" v-on:click="toOnEditMode(item)">
                             変更
                         </button>
-                        <button class="button is-primary is-outlined" v-on:click="doRemove(item)">
-                            削除
+                    </div>
+                    <div v-show="item.editMode">
+                        <button class="button is-primary is-outlined" v-on:click="toOffEditMode(item)">
+                            取消
                         </button>
                     </div>
+                </div>
+                <div class="column">
+                    <button class="button is-primary is-outlined" v-on:click="doRemove(item)">
+                        削除
+                    </button>
                 </div>
             </div>
         </div>
