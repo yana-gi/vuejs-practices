@@ -36,8 +36,8 @@
 
             <div class="columns is-mobile is-vcentered" v-for="(item, index) in todos" v-bind:key="item.id">
                 <div class="column is-two-thirds has-text-left">
-                    <div v-show="item.editMode">
-                        <form class="form" v-on:submit.prevent="doChangeComment(item, index)">
+                    <div v-if="index == editMode">
+                        <form class="form" v-on:submit.prevent="doChangeComment(item)">
                             <div class="columns is-mobile has-text-centered is-vcentered ">
                                 <div class="column is-two-thirds">
                                     <input class="input" type="text" ref="newComment" v-bind:value="item.comment">
@@ -50,18 +50,18 @@
                             </div>
                         </form>
                     </div>
-                    <div v-show="!item.editMode">
+                    <div v-else>
                         {{ item.comment }}
                     </div>
                 </div>
                 <div class="column">
-                    <div v-show="!item.editMode">
+                    <div v-if="!(index == editMode)">
                         <button class="button is-primary is-outlined" v-on:click="doChangeModeToTrue(item)">
                             変更
                         </button>
                     </div>
-                    <div v-show="item.editMode">
-                        <button class="button is-primary is-outlined" v-on:click="doChangeModeToFalse(item)">
+                    <div v-else>
+                        <button class="button is-primary is-outlined" v-on:click="doChangeModeToFalse">
                             取消
                         </button>
                     </div>

@@ -20,7 +20,8 @@ var todoStorage = {
 let app = new Vue({
     el: '#app',
     data: {
-        todos: []
+        todos: [],
+        editMode: -1
     },
     watch: {
         todos: {
@@ -41,29 +42,25 @@ let app = new Vue({
             }
             this.todos.push({
                 id: todoStorage.uid++,
-                comment: comment.value,
-                editMode: false
+                comment: comment.value
             })
             comment.value = ''
         },
-        doChangeComment(item, index) {
-            const comment = this.$refs.newComment[index]
-            if (!comment.value.length) {
-                item.editMode = false
-                return
-            }
+        doChangeComment(item) {
+            const comment = this.$refs.newComment[0]
             item.comment = comment.value
-            item.editMode = false
+            this.editMode = -1
         },
         doRemove(item) {
             const index = this.todos.indexOf(item)
             this.todos.splice(index, 1)
         },
         doChangeModeToTrue(item) {
-            item.editMode = true
+            const index = this.todos.indexOf(item)
+            this.editMode = index
         },
-        doChangeModeToFalse(item) {
-            item.editMode = false
+        doChangeModeToFalse() {
+            this.editMode = -1
         }
     }
 })
