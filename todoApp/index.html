@@ -18,7 +18,7 @@
         </div>
 
         <div class="box content">
-            <form class="form" v-on:submit.prevent="doAdd">
+            <form class="form" @submit.prevent="doAdd">
                 <div class="columns is-mobile is-vcentered ">
                     <div class="column is-two-thirds">
                         <input class="input is-medium" type="text" placeholder="ToDo" ref="comment"></div>
@@ -37,7 +37,7 @@
             <div class="columns is-mobile is-vcentered" v-for="(item, index) in todos" v-bind:key="item.id">
                 <div class="column is-two-thirds has-text-left">
                     <div v-if="index == editMode">
-                        <form class="form" v-on:submit.prevent="doChangeComment(item)">
+                        <form class="form" @submit.prevent="doChangeComment(item)">
                             <div class="columns is-mobile has-text-centered is-vcentered ">
                                 <div class="column is-two-thirds">
                                     <input class="input" type="text" v-model="newComment">
@@ -56,18 +56,18 @@
                 </div>
                 <div class="column">
                     <div v-if="!(index == editMode)">
-                        <button class="button is-primary is-outlined" v-on:click="doChangeModeToTrue(item)">
+                        <button class="button is-primary is-outlined" @click="doChangeModeToTrue(item)">
                             変更
                         </button>
                     </div>
                     <div v-else>
-                        <button class="button is-primary is-outlined" v-on:click="doChangeModeToFalse">
+                        <button class="button is-primary is-outlined" @click="doChangeModeToFalse">
                             取消
                         </button>
                     </div>
                 </div>
                 <div class="column">
-                    <button class="button is-primary is-outlined" v-on:click="doRemove(item)">
+                    <button class="button is-primary is-outlined" @click="doRemove(item)">
                         削除
                     </button>
                 </div>
