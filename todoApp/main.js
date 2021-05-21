@@ -21,7 +21,8 @@ let app = new Vue({
     el: '#app',
     data: {
         todos: [],
-        editMode: -1
+        editMode: -1,
+        newComment: ""
     },
     watch: {
         todos: {
@@ -47,8 +48,8 @@ let app = new Vue({
             comment.value = ''
         },
         doChangeComment(item) {
-            const comment = this.$refs.newComment[0]
-            item.comment = comment.value
+            const comment = this.newComment
+            item.comment = comment
             this.editMode = -1
         },
         doRemove(item) {
@@ -58,6 +59,7 @@ let app = new Vue({
         doChangeModeToTrue(item) {
             const index = this.todos.indexOf(item)
             this.editMode = index
+            this.newComment = item.comment
         },
         doChangeModeToFalse() {
             this.editMode = -1
