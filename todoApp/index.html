@@ -40,7 +40,7 @@
                         <form class="form" v-on:submit.prevent="doChangeComment(item)">
                             <div class="columns is-mobile has-text-centered is-vcentered ">
                                 <div class="column is-two-thirds">
-                                    <input class="input" type="text" ref="newComment" v-bind:value="item.comment">
+                                    <input class="input" type="text" v-model="newComment">
                                 </div>
                                 <div class="column has-text-left">
                                     <button class="button is-primary " type="submit">
