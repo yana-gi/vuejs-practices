@@ -58,6 +58,12 @@ let app = new Vue({
         doRemove(item) {
             const index = this.todos.indexOf(item)
             this.todos.splice(index, 1)
+        },
+        doChangeModeToTrue(item) {
+            item.editMode = true
+        },
+        doChangeModeToFalse(item) {
+            item.editMode = false
         }
     }
 })
