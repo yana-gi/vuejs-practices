@@ -21,7 +21,7 @@ let app = new Vue({
     el: '#app',
     data: {
         todos: [],
-        editMode: -1,
+        editItemId: -1,
         newComment: ""
     },
     watch: {
@@ -50,19 +50,18 @@ let app = new Vue({
         doChangeComment(item) {
             const comment = this.newComment
             item.comment = comment
-            this.editMode = -1
+            this.editItemId = -1
         },
         doRemove(item) {
             const index = this.todos.indexOf(item)
             this.todos.splice(index, 1)
         },
-        doChangeModeToTrue(item) {
-            const index = this.todos.indexOf(item)
-            this.editMode = index
+        doStartEdit(item) {
+            this.editItemId = item.id
             this.newComment = item.comment
         },
-        doChangeModeToFalse() {
-            this.editMode = -1
+        doEndEdit() {
+            this.editItemId = -1
         }
     }
 })
