@@ -1,17 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{ title }}</h1>
+    <Memo v-for="memo in memos"
+          :key="memo.id"
+          v-bind="memo" ></Memo>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Memo from './components/Memo.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Memo
+  },
+  data(){
+    return {
+      title: 'タイトル',
+      memo: { id: 1, body: 'メモ1' },
+      memos: [
+        { id: 1, body: 'メモ1' },
+        { id: 2, body: 'メモ2' },
+        { id: 3, body: 'メモ3' }
+      ]
+    }
   }
 }
 </script>
