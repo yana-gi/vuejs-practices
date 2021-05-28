@@ -7,7 +7,13 @@
               v-bind:id="memo.id" v-bind:body="memo.body"
               @selectMemo="showMemo"  ></Memo>
         <a href="">+</a>
-        <Edit></Edit>
+        <div v-show="editItemId !== -1">
+          <div class="edit">
+            <textarea class="textarea" v-model="inputText"></textarea>
+            <button class="button is-primary">編集</button>
+            <button class="button is-primary">削除</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -15,18 +21,17 @@
 
 <script>
 import Memo from './components/Memo.vue'
-import Edit from './components/Edit.vue'
 
 export default {
   name: 'App',
   components: {
-    Memo,
-    Edit
+    Memo
   },
   data(){
     return {
       title: 'タイトル',
-      editItem: -1,
+      editItemId: -1,
+      inputText: '',
       memos: [
         { id: 1, body: 'メモ1\n ああ' },
         { id: 2, body: 'メモ2' },
@@ -34,9 +39,14 @@ export default {
       ]
     }
   },
+  watch:{
+    editItemId: function (id) {
+      this.inputText = this.memos.find((v) => v.id === id).body
+    }
+  },
   methods: {
     showMemo: function (id) {
-      this.editItem = id
+      this.editItemId = id
     }
   }
 }

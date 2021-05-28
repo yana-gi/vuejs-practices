@@ -1,6 +1,6 @@
 <template>
   <div class="edit">
-    <textarea class="textarea"></textarea>
+    <textarea class="textarea" v-model="text"></textarea>
     <button class="button is-primary">編集</button>
     <button class="button is-primary">削除</button>
   </div>
@@ -10,7 +10,13 @@
 export default {
   name: 'Edit',
   props: {
-    body: String
+    editItem: Number,
+    itemBody: String
+  },
+  data() {
+    return {
+      text: this.itemBody
+    }
   }
 }
 </script>
