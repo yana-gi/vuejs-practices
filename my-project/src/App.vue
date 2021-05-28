@@ -22,6 +22,23 @@
 <script>
 import Memo from './components/Memo.vue'
 
+var STORAGE_KEY = 'memo_storage'
+var memoStorage = {
+  fetch() {
+    var memoList = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || '[]'
+    )
+    memoList.forEach((memo, index) => {
+      memo.id = index
+    })
+    memoStorage.uid = memoList.length
+    return memoList
+  },
+  save(memoList) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memoList))
+  }
+}
+
 export default {
   name: 'App',
   components: {
@@ -32,14 +49,16 @@ export default {
       title: 'タイトル',
       editItemId: -1,
       inputText: '',
-      memos: [
-        { id: 1, body: 'メモ1\n ああ' },
-        { id: 2, body: 'メモ2' },
-        { id: 3, body: 'メモ3' }
-      ]
+      memos: []
     }
   },
-  watch:{
+  watch: {
+    memos: {
+      handler(memo) {
+        memoStorage.save(memo)
+      },
+      deep: true
+    },
     editItemId: function (id) {
       this.inputText = this.memos.find((v) => v.id === id).body
     }
