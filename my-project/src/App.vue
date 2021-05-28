@@ -1,19 +1,26 @@
 <template>
   <div id="app">
     <div class="container">
-      <h1>{{ title }}</h1>
+      <h1>{{ modeList[mode] }}</h1>
       <div class="box is-mobile">
-        <Memo v-for="memo in memos" :key="memo.id"
+        <Memo v-for="memo in memoList" :key="memo.id"
               v-bind:id="memo.id" v-bind:body="memo.body"
-              @selectMemo="showMemo"  ></Memo>
-        <a href="">+</a>
-        <div v-show="editItemId !== -1">
-          <div class="edit">
-            <textarea class="textarea" v-model="inputText"></textarea>
-            <button class="button is-primary">編集</button>
-            <button class="button is-primary">削除</button>
-          </div>
+              @selectMemo="doShowMemo"  ></Memo>
+        <a @click="doChangeCreateMode">+</a>
+        <div v-show="mode === 'show'">
+          <textarea class="textarea" v-model="inputText"></textarea>
+          <button class="button is-primary ">
+            追加
+          </button>
+          <button class="button is-primary">削除</button>
         </div>
+        <div v-show="mode === 'create'">
+          <textarea class="textarea" v-model="inputText"></textarea>
+          <button class="button is-primary " @click="doCreateMemo">
+            登録
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -46,26 +53,39 @@ export default {
   },
   data(){
     return {
-      title: 'タイトル',
+      modeList: {'index':'一覧', 'show':'参照', 'create':'新規作成'},
+      mode: 'index',
       editItemId: -1,
       inputText: '',
-      memos: []
+      memoList: []
     }
   },
   watch: {
-    memos: {
-      handler(memo) {
-        memoStorage.save(memo)
+    memoList: {
+      handler(memoList) {
+        memoStorage.save(memoList)
       },
       deep: true
-    },
-    editItemId: function (id) {
-      this.inputText = this.memos.find((v) => v.id === id).body
     }
   },
+  created() {
+    this.memoList = memoStorage.fetch()
+  },
   methods: {
-    showMemo: function (id) {
+    doShowMemo(id) {
       this.editItemId = id
+      this.inputText = this.memoList.find((v) => v.id === id).body
+      this.mode = 'show'
+    },
+    doChangeCreateMode() {
+      this.inputText = ''
+      this.mode = 'create'
+    },
+    doCreateMemo() {
+      this.memoList.push({
+        id: memoStorage.uid++,
+        body: this.inputText
+      })
     }
   }
 }
