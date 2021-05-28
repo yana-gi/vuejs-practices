@@ -1,6 +1,8 @@
 <template>
   <div class="memo">
-    <a @click="doSelectMemo">{{ body }}</a>
+    <a @click="doSelectMemo">
+      {{ firstMemoLine }}
+    </a>
   </div>
 </template>
 
@@ -11,6 +13,11 @@ export default {
     id: Number,
     body: String
   },
+  computed:{
+    firstMemoLine: function () {
+      return this.body.split('\n')[0]
+    }
+  },
   methods: {
     doSelectMemo() {
       this.$emit('selectMemo', this.id)
@@ -19,7 +26,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 </style>

@@ -5,7 +5,7 @@
       <div class="box is-mobile">
         <Memo v-for="memo in memos" :key="memo.id"
               v-bind:id="memo.id" v-bind:body="memo.body"
-              @selectMemo="huga"  ></Memo>
+              @selectMemo="showMemo"  ></Memo>
         <a href="">+</a>
         <Edit></Edit>
       </div>
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    huga: function (id) {
+    showMemo: function (id) {
       this.editItem = id
     }
   }
