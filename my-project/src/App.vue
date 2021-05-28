@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div class="container">
+      <h1>{{ title }}</h1>
       <div class="box is-mobile">
-        <h1>{{ title }}</h1>
-        <Memo v-for="memo in memos"
-              :key="memo.id"
-              v-bind="memo" ></Memo>
+        <Memo v-for="memo in memos" :key="memo.id"
+              v-bind:id="memo.id" v-bind:body="memo.body"
+              @selectMemo="huga"  ></Memo>
         <a href="">+</a>
         <Edit></Edit>
       </div>
@@ -26,12 +26,17 @@ export default {
   data(){
     return {
       title: 'タイトル',
-      memo: { id: 1, body: 'メモ1' },
+      editItem: -1,
       memos: [
-        { id: 1, body: 'メモ1' },
+        { id: 1, body: 'メモ1\n ああ' },
         { id: 2, body: 'メモ2' },
         { id: 3, body: 'メモ3' }
       ]
+    }
+  },
+  methods: {
+    huga: function (id) {
+      this.editItem = id
     }
   }
 }

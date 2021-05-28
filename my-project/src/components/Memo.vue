@@ -1,6 +1,6 @@
 <template>
   <div class="memo">
-    <li>{{ body }}</li>
+    <a @click="doSelectMemo">{{ body }}</a>
   </div>
 </template>
 
@@ -8,7 +8,13 @@
 export default {
   name: 'Memo',
   props: {
+    id: Number,
     body: String
+  },
+  methods: {
+    doSelectMemo() {
+      this.$emit('selectMemo', this.id)
+    }
   }
 }
 </script>
