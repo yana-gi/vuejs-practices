@@ -12,7 +12,9 @@
           <button class="button is-primary ">
             追加
           </button>
-          <button class="button is-primary">削除</button>
+          <button class="button is-primary" @click="doRemoveMemo">
+            削除
+          </button>
         </div>
         <div v-show="mode === 'create'">
           <textarea class="textarea" v-model="inputText"></textarea>
@@ -86,6 +88,11 @@ export default {
         id: memoStorage.uid++,
         body: this.inputText
       })
+      this.inputText = ''
+    },
+    doRemoveMemo() {
+      this.memoList = this.memoList.filter(memo => memo.id !== this.editItemId)
+      this.inputText = ''
     }
   }
 }
