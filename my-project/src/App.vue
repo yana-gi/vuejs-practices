@@ -9,8 +9,8 @@
         <a @click="doChangeCreateMode">+</a>
         <div v-show="mode === 'show'">
           <textarea class="textarea" v-model="inputText"></textarea>
-          <button class="button is-primary ">
-            追加
+          <button class="button is-primary" @click="doChangeComment">
+            変更
           </button>
           <button class="button is-primary" @click="doRemoveMemo">
             削除
@@ -89,6 +89,10 @@ export default {
         body: this.inputText
       })
       this.inputText = ''
+    },
+    doChangeComment() {
+      const item = this.memoList.find((memo) => memo.id === this.editItemId)
+      this.$set(item, 'body', this.inputText)
     },
     doRemoveMemo() {
       this.memoList = this.memoList.filter(memo => memo.id !== this.editItemId)
