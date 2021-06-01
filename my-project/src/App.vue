@@ -1,25 +1,27 @@
 <template>
   <div id="app">
     <div class="container">
-      <h1>{{ modeList[mode] }}</h1>
+      <h1 class="title">{{ modeList[mode] }}</h1>
       <div class="box is-mobile">
         <Memo v-for="memo in memoList" :key="memo.id"
               v-bind:id="memo.id" v-bind:body="memo.body"
-              @selectMemo="doShowMemo"  ></Memo>
-        <a @click="doChangeCreateMode">+</a>
+              @selectMemo="doShowMemo"></Memo>
+        <a @click="doChangeCreateMode">+ 新規作成</a>
         <div v-show="mode === 'show'">
           <textarea class="textarea" v-model="inputText"></textarea>
-          <button class="button is-primary" @click="doChangeComment">
-            変更
-          </button>
-          <button class="button is-primary" @click="doRemoveMemo">
-            削除
-          </button>
+          <div class="buttons">
+            <button class="button is-primary" @click="doChangeComment">
+              変更
+            </button>
+            <button class="button is-primary" @click="doRemoveMemo">
+              削除
+            </button>
+          </div>
         </div>
         <div v-show="mode === 'create'">
           <textarea class="textarea" v-model="inputText"></textarea>
           <button class="button is-primary " @click="doCreateMemo">
-            登録
+            作成
           </button>
         </div>
 
@@ -53,9 +55,9 @@ export default {
   components: {
     Memo
   },
-  data(){
+  data() {
     return {
-      modeList: {'index':'一覧', 'show':'参照', 'create':'新規作成'},
+      modeList: {'index': '一覧', 'show': '参照', 'create': '新規作成'},
       mode: 'index',
       editItemId: -1,
       inputText: '',
@@ -104,12 +106,14 @@ export default {
 
 <style>
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css";
-#app {
-  /*font-family: Avenir, Helvetica, Arial, sans-serif;*/
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-moz-osx-font-smoothing: grayscale;*/
-  /*text-align: center;*/
-  /*color: #2c3e50;*/
-  /*margin-top: 60px;*/
+
+.title {
+  margin-top: 1.5rem;
+}
+.box {
+  width: 50%;
+}
+.textarea {
+  margin: 1em 0;
 }
 </style>
