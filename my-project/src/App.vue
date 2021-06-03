@@ -4,7 +4,7 @@
       <h1 class="title">{{ modeList[mode] }}</h1>
       <div class="box is-mobile">
         <div>
-          <a v-for="memo in memoList" :key="memo.id" @click="doShowMemo(memo.id)">
+          <a v-for="memo in memoList" :key="memo.id" @click="doShowMemo(memo)">
             {{ firstMemoLine(memo.body) }}
             <br>
           </a>
@@ -12,31 +12,19 @@
         <div>
           <a @click="doChangeCreateMode">+ 新規作成</a>
         </div>
-        <div v-show="mode === 'show'">
-          <textarea class="textarea" v-model="inputText"></textarea>
-          <div class="buttons">
-            <button class="button is-primary" @click="doChangeComment">
-              変更
-            </button>
-            <button class="button is-primary" @click="doRemoveMemo">
-              削除
-            </button>
-          </div>
+        <div v-show="mode !== 'index'">
+          <EditForm v-bind:mode="mode" v-bind:body="editMemo.body"
+                    @click-edit="doChangeMemo"
+                    @click-remove="doRemoveMemo"
+                    @click-create="doCreateMemo"></EditForm>
         </div>
-        <div v-show="mode === 'create'">
-          <textarea class="textarea" v-model="inputText"></textarea>
-          <button class="button is-primary " @click="doCreateMemo">
-            作成
-          </button>
-        </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import Memo from './components/Memo.vue'
+import EditForm from './components/EditForm.vue'
 
 var STORAGE_KEY = 'memo_storage'
 var memoStorage = {
@@ -57,15 +45,14 @@ var memoStorage = {
 
 export default {
   name: 'App',
-  // components: {
-    // Memo
-  // },
+  components: {
+    EditForm
+  },
   data() {
     return {
       modeList: {'index': '一覧', 'show': '参照', 'create': '新規作成'},
       mode: 'index',
-      editItemId: -1,
-      inputText: '',
+      editMemo: { id: -1, body: '' },
       memoList: []
     }
   },
@@ -86,29 +73,27 @@ export default {
     }
   },
   methods: {
-    doShowMemo(id) {
-      this.editItemId = id
-      this.inputText = this.memoList.find((memo) => memo.id === id).body
+    doShowMemo(memo) {
+      this.editMemo = memo
       this.mode = 'show'
     },
     doChangeCreateMode() {
-      this.inputText = ''
+      this.editMemo = { id: -1, body: '' }
       this.mode = 'create'
     },
-    doCreateMemo() {
+    doCreateMemo(inputText) {
       this.memoList.push({
         id: memoStorage.uid++,
-        body: this.inputText
+        body: inputText
       })
-      this.inputText = ''
+      this.mode = 'index'
     },
-    doChangeComment() {
-      const item = this.memoList.find((memo) => memo.id === this.editItemId)
-      this.$set(item, 'body', this.inputText)
+    doChangeMemo(inputText) {
+      this.$set(this.editMemo, 'body', inputText)
     },
     doRemoveMemo() {
-      this.memoList = this.memoList.filter(memo => memo.id !== this.editItemId)
-      this.inputText = ''
+      this.memoList = this.memoList.filter(memo => memo !== this.editMemo)
+      this.mode = 'index'
     }
   }
 }
@@ -120,10 +105,7 @@ export default {
 .title {
   margin-top: 1.5rem;
 }
-.box {
-  width: 50%;
-}
-.textarea {
-  margin: 1em 0;
+.container {
+  margin: 0 100px;
 }
 </style>
