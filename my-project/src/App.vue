@@ -3,10 +3,15 @@
     <div class="container">
       <h1 class="title">{{ modeList[mode] }}</h1>
       <div class="box is-mobile">
-        <Memo v-for="memo in memoList" :key="memo.id"
-              v-bind:id="memo.id" v-bind:body="memo.body"
-              @selectMemo="doShowMemo"></Memo>
-        <a @click="doChangeCreateMode">+ 新規作成</a>
+        <div>
+          <a v-for="memo in memoList" :key="memo.id" @click="doShowMemo(memo.id)">
+            {{ firstMemoLine(memo.body) }}
+            <br>
+          </a>
+        </div>
+        <div>
+          <a @click="doChangeCreateMode">+ 新規作成</a>
+        </div>
         <div v-show="mode === 'show'">
           <textarea class="textarea" v-model="inputText"></textarea>
           <div class="buttons">
@@ -31,7 +36,7 @@
 </template>
 
 <script>
-import Memo from './components/Memo.vue'
+// import Memo from './components/Memo.vue'
 
 var STORAGE_KEY = 'memo_storage'
 var memoStorage = {
@@ -52,9 +57,9 @@ var memoStorage = {
 
 export default {
   name: 'App',
-  components: {
-    Memo
-  },
+  // components: {
+    // Memo
+  // },
   data() {
     return {
       modeList: {'index': '一覧', 'show': '参照', 'create': '新規作成'},
@@ -75,10 +80,15 @@ export default {
   created() {
     this.memoList = memoStorage.fetch()
   },
+  computed:{
+    firstMemoLine: function () {
+      return body => body.split('\n')[0]
+    }
+  },
   methods: {
     doShowMemo(id) {
       this.editItemId = id
-      this.inputText = this.memoList.find((v) => v.id === id).body
+      this.inputText = this.memoList.find((memo) => memo.id === id).body
       this.mode = 'show'
     },
     doChangeCreateMode() {
