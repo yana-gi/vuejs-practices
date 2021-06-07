@@ -26,10 +26,10 @@
 <script>
 import EditForm from './components/EditForm.vue'
 
-var STORAGE_KEY = 'memo_storage'
-var memoStorage = {
+const STORAGE_KEY = 'memo_storage'
+const memoStorage = {
   fetch() {
-    var memoList = JSON.parse(
+    let memoList = JSON.parse(
         localStorage.getItem(STORAGE_KEY) || '[]'
     )
     memoList.forEach((memo, index) => {
@@ -56,6 +56,11 @@ export default {
       memoList: []
     }
   },
+  computed:{
+    firstMemoLine: function () {
+      return body => body.split('\n')[0]
+    }
+  },
   watch: {
     memoList: {
       handler(memoList) {
@@ -66,11 +71,6 @@ export default {
   },
   created() {
     this.memoList = memoStorage.fetch()
-  },
-  computed:{
-    firstMemoLine: function () {
-      return body => body.split('\n')[0]
-    }
   },
   methods: {
     doShowMemo(memo) {
