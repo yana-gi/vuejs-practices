@@ -3,17 +3,17 @@
     <div v-show="mode === 'show'">
       <textarea class="textarea" v-model="inputText"></textarea>
       <div class="buttons">
-        <button class="button is-primary" @click="doChangeMemo(inputText)">
+        <button class="button is-primary" @click="clickEdit(inputText)">
           変更
         </button>
-        <button class="button is-primary" @click="doRemoveMemo">
+        <button class="button is-primary" @click="clickRemove">
           削除
         </button>
       </div>
     </div>
     <div v-show="mode === 'create'">
       <textarea class="textarea" v-model="inputText" ></textarea>
-      <button class="button is-primary" @click="doCreateMemo(inputText)">
+      <button class="button is-primary" @click="clickCreate(inputText)">
         作成
       </button>
     </div>
@@ -38,13 +38,14 @@ export default {
     }
   },
   methods: {
-    doCreateMemo() {
+    clickCreate() {
       this.$emit('click-create', this.inputText)
+      this.inputText = ''
     },
-    doChangeMemo() {
+    clickEdit() {
       this.$emit('click-edit', this.inputText)
     },
-    doRemoveMemo() {
+    clickRemove() {
       this.$emit('click-remove')
     }
   }
