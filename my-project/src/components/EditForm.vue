@@ -24,8 +24,14 @@
 export default {
   name: 'EditForm',
   props: {
-    mode: String,
-    body: String
+    mode: {
+      type: String,
+      required: true
+    },
+    body: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
