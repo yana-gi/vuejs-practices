@@ -57,7 +57,7 @@ export default {
     }
   },
   computed:{
-    firstMemoLine: function () {
+    firstMemoLine() {
       return body => body.split('\n')[0]
     }
   },
