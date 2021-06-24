@@ -14,9 +14,11 @@
         </div>
         <div v-show="mode !== 'index'">
           <EditForm v-bind:mode="mode" v-bind:body="editMemo.body"
+                    @input="doGetText"
                     @click-edit="doChangeMemo"
                     @click-remove="doRemoveMemo"
-                    @click-create="doCreateMemo"></EditForm>
+                    @click-create="doCreateMemo"
+          ></EditForm>
         </div>
       </div>
     </div>
@@ -53,6 +55,7 @@ export default {
       modeList: {'index': '一覧', 'show': '参照', 'create': '新規作成'},
       mode: 'index',
       editMemo: { id: -1, body: '' },
+      inputText: '',
       memoList: []
     }
   },
@@ -61,18 +64,13 @@ export default {
       return body => body.split('\n')[0]
     }
   },
-  watch: {
-    memoList: {
-      handler(memoList) {
-        memoStorage.save(memoList)
-      },
-      deep: true
-    }
-  },
   created() {
     this.memoList = memoStorage.fetch()
   },
   methods: {
+    doGetText(inputText) {
+      this.inputText = inputText
+    },
     doShowMemo(memo) {
       this.editMemo = memo
       this.mode = 'show'
@@ -81,18 +79,24 @@ export default {
       this.editMemo = { id: -1, body: '' }
       this.mode = 'create'
     },
-    doCreateMemo(inputText) {
+    doCreateMemo() {
       this.memoList.push({
         id: memoStorage.uid++,
-        body: inputText
+        body: this.inputText
       })
+      memoStorage.save(this.memoList)
       this.mode = 'index'
     },
-    doChangeMemo(inputText) {
-      this.$set(this.editMemo, 'body', inputText)
+    doChangeMemo() {
+      this.editMemo.body = this.inputText
+      const index = this.memoList.findIndex(v => v.id === this.editMemo.id)
+      this.memoList.splice(index, 1, this.editMemo)
+      memoStorage.save(this.memoList)
+      this.mode = 'index'
     },
     doRemoveMemo() {
       this.memoList = this.memoList.filter(memo => memo !== this.editMemo)
+      memoStorage.save(this.memoList)
       this.mode = 'index'
     }
   }
