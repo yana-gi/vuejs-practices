@@ -1,9 +1,11 @@
 <template>
   <div class="editForm">
     <div v-show="mode === 'show'">
-      <textarea class="textarea" v-model="inputText"></textarea>
+      <textarea class="textarea"
+                v-bind:value="body"
+                @input="$emit('input', $event.target.value)"></textarea>
       <div class="buttons">
-        <button class="button is-primary" @click="clickEdit(inputText)">
+        <button class="button is-primary" @click="clickEdit">
           変更
         </button>
         <button class="button is-primary" @click="clickRemove">
@@ -12,8 +14,10 @@
       </div>
     </div>
     <div v-show="mode === 'create'">
-      <textarea class="textarea" v-model="inputText" ></textarea>
-      <button class="button is-primary" @click="clickCreate(inputText)">
+      <textarea class="textarea"
+                v-bind:value="body"
+                @input="$emit('input', $event.target.value)" ></textarea>
+      <button class="button is-primary" @click="clickCreate">
         作成
       </button>
     </div>
@@ -33,23 +37,12 @@ export default {
       default: ''
     }
   },
-  data() {
-    return {
-      inputText: this.body
-    }
-  },
-  watch: {
-    body() {
-      this.inputText = this.body
-    }
-  },
   methods: {
     clickCreate() {
-      this.$emit('click-create', this.inputText)
-      this.inputText = ''
+      this.$emit('click-create')
     },
     clickEdit() {
-      this.$emit('click-edit', this.inputText)
+      this.$emit('click-edit')
     },
     clickRemove() {
       this.$emit('click-remove')
